@@ -1,0 +1,32 @@
+{
+  "name": "ProjectItem",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "Reference to MarbleProduct ID"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "product_image": {
+      "type": "string"
+    },
+    "quantity_sqm": {
+      "type": "number",
+      "description": "Quantity in square meters"
+    },
+    "price_per_sqm": {
+      "type": "number"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Custom notes for this item"
+    }
+  },
+  "required": [
+    "product_id",
+    "product_name",
+    "quantity_sqm"
+  ]
+}
