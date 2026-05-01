@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from '@/components/ui/use-toast';
-import { Send, MapPin, Phone, Mail } from 'lucide-react';
+import { Send, MapPin, Phone, Mail, Clock } from 'lucide-react';
 
 export default function Contact() {
+  const { data: settings = [] } = useQuery({
+    queryKey: ['siteSettings'],
+    queryFn: () => base44.entities.SiteSettings.list(),
+  });
+  const siteInfo = settings[0] || {};
+
   const [form, setForm] = useState({
     full_name: '',
     email: '',
@@ -53,33 +59,50 @@ export default function Contact() {
             </p>
 
             <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-4 h-4 text-muted-foreground" />
+              {(siteInfo.address || true) && (
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Address</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">{siteInfo.address || 'Maslak, Istanbul, Turkey'}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-medium">Address</p>
-                  <p className="text-sm text-muted-foreground mt-0.5">Maslak, Istanbul, Turkey</p>
+              )}
+              {(siteInfo.phone || true) && (
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Phone</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">{siteInfo.phone || '+90 (212) 555 01 23'}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-4 h-4 text-muted-foreground" />
+              )}
+              {(siteInfo.email || true) && (
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Email</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">{siteInfo.email || 'info@lithicmonolith.com'}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-medium">Phone</p>
-                  <p className="text-sm text-muted-foreground mt-0.5">+90 (212) 555 01 23</p>
+              )}
+              {siteInfo.working_hours && (
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Working Hours</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">{siteInfo.working_hours}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-4 h-4 text-muted-foreground" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Email</p>
-                  <p className="text-sm text-muted-foreground mt-0.5">info@lithicmonolith.com</p>
-                </div>
-              </div>
+              )}
             </div>
           </motion.div>
 

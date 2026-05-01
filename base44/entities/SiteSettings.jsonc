@@ -1,0 +1,27 @@
+{
+  "name": "SiteSettings",
+  "type": "object",
+  "properties": {
+    "address": {
+      "type": "string",
+      "description": "Company address"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Contact phone number"
+    },
+    "email": {
+      "type": "string",
+      "description": "Contact email address"
+    },
+    "working_hours": {
+      "type": "string",
+      "description": "Working hours text"
+    },
+    "google_maps_url": {
+      "type": "string",
+      "description": "Google Maps embed URL"
+    }
+  },
+  "required": []
+}
