@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ShoppingBag, Search } from 'lucide-react';
+import { Menu, X, ShoppingBag, Search, User, LogOut } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const { user } = useAuth();
 
   const { data: cartItems = [] } = useQuery({
     queryKey: ['projectItems'],
@@ -86,6 +89,49 @@ export default function Navbar() {
                   </span>
                 )}
               </Link>
+
+              {/* User Icon */}
+              <div className="relative">
+                {user ? (
+                  <>
+                    <button
+                      onClick={() => setUserMenuOpen(o => !o)}
+                      className="w-7 h-7 rounded-full flex items-center justify-center text-black text-xs font-bold uppercase"
+                      style={{ backgroundColor: '#C9A96E' }}
+                    >
+                      {user.full_name?.charAt(0) || user.email?.charAt(0) || 'U'}
+                    </button>
+                    {userMenuOpen && (
+                      <>
+                        <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)} />
+                        <div
+                          className="absolute right-0 top-10 z-50 min-w-[160px] py-2 rounded-sm shadow-xl"
+                          style={{ backgroundColor: '#111', border: '1px solid #C9A96E33' }}
+                        >
+                          <p className="px-4 py-2 text-xs text-white/40 truncate border-b border-white/10">
+                            {user.full_name || user.email}
+                          </p>
+                          <button
+                            onClick={() => { base44.auth.logout(); setUserMenuOpen(false); }}
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-xs tracking-wider text-white/70 hover:text-white hover:bg-white/5 transition-colors"
+                          >
+                            <LogOut className="w-3.5 h-3.5" />
+                            Sign Out
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <button
+                    onClick={() => base44.auth.redirectToLogin()}
+                    className="text-white/60 hover:text-white transition-colors"
+                  >
+                    <User className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+
               <button
                 onClick={() => setMobileOpen(true)}
                 className="lg:hidden text-white/70 hover:text-white transition-colors"
