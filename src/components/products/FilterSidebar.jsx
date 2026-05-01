@@ -4,37 +4,37 @@ import { X, SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const COLOR_OPTIONS = [
-  { id: 'white', label: 'Beyaz', color: '#F5F5F0' },
-  { id: 'grey', label: 'Gri', color: '#8E8E8E' },
-  { id: 'black', label: 'Siyah', color: '#1A1A1A' },
-  { id: 'beige', label: 'Bej', color: '#D4C5A9' },
-  { id: 'green', label: 'Yeşil', color: '#4A5D4E' },
-  { id: 'brown', label: 'Kahverengi', color: '#6B4226' },
-  { id: 'blue', label: 'Mavi', color: '#4A6B7C' },
-  { id: 'pink', label: 'Pembe', color: '#C4A0A0' },
-  { id: 'red', label: 'Kırmızı', color: '#8B3A3A' },
-  { id: 'gold', label: 'Altın', color: '#B8960C' },
+  { id: 'white', label: 'White', color: '#F5F5F0' },
+  { id: 'grey', label: 'Grey', color: '#8E8E8E' },
+  { id: 'black', label: 'Black', color: '#1A1A1A' },
+  { id: 'beige', label: 'Beige', color: '#D4C5A9' },
+  { id: 'green', label: 'Green', color: '#4A5D4E' },
+  { id: 'brown', label: 'Brown', color: '#6B4226' },
+  { id: 'blue', label: 'Blue', color: '#4A6B7C' },
+  { id: 'pink', label: 'Pink', color: '#C4A0A0' },
+  { id: 'red', label: 'Red', color: '#8B3A3A' },
+  { id: 'gold', label: 'Gold', color: '#B8960C' },
 ];
 
-const ORIGINS = ['İtalya', 'Türkiye', 'İspanya', 'Yunanistan', 'Brezilya', 'Hindistan', 'Portekiz', 'Mısır'];
+const ORIGINS = ['Italy', 'Turkey', 'Spain', 'Greece', 'Brazil', 'India', 'Portugal', 'Egypt'];
 const FINISHES = [
-  { id: 'polished', label: 'Cilalı' },
-  { id: 'honed', label: 'Honlanmış' },
-  { id: 'leathered', label: 'Deri Doku' },
-  { id: 'brushed', label: 'Fırçalanmış' },
-  { id: 'tumbled', label: 'Eskitme' },
+  { id: 'polished', label: 'Polished' },
+  { id: 'honed', label: 'Honed' },
+  { id: 'leathered', label: 'Leathered' },
+  { id: 'brushed', label: 'Brushed' },
+  { id: 'tumbled', label: 'Tumbled' },
 ];
 const PATTERNS = [
   { id: 'minimal', label: 'Minimal' },
-  { id: 'moderate', label: 'Orta' },
-  { id: 'high_movement', label: 'Yoğun Desen' },
+  { id: 'moderate', label: 'Moderate' },
+  { id: 'high_movement', label: 'High Movement' },
 ];
 const CATEGORIES = [
-  { id: 'slab', label: 'Levha' },
-  { id: 'tile', label: 'Karo' },
-  { id: 'block', label: 'Blok' },
-  { id: 'countertop', label: 'Tezgah' },
-  { id: 'mosaic', label: 'Mozaik' },
+  { id: 'slab', label: 'Slab' },
+  { id: 'tile', label: 'Tile' },
+  { id: 'block', label: 'Block' },
+  { id: 'countertop', label: 'Countertop' },
+  { id: 'mosaic', label: 'Mosaic' },
 ];
 
 export default function FilterSidebar({ filters, setFilters, onClose, isMobile }) {
@@ -84,7 +84,7 @@ export default function FilterSidebar({ filters, setFilters, onClose, isMobile }
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-2">
             <SlidersHorizontal className="w-4 h-4" />
-            <span className="text-sm font-medium tracking-wider uppercase">Filtreler</span>
+            <span className="text-sm font-medium tracking-wider uppercase">Filters</span>
             {activeCount > 0 && (
               <span className="text-xs bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center">
                 {activeCount}
@@ -94,7 +94,7 @@ export default function FilterSidebar({ filters, setFilters, onClose, isMobile }
           <div className="flex items-center gap-2">
             {activeCount > 0 && (
               <button onClick={clearFilters} className="text-xs text-muted-foreground hover:text-foreground">
-                Temizle
+                Clear
               </button>
             )}
             {isMobile && (
@@ -105,7 +105,7 @@ export default function FilterSidebar({ filters, setFilters, onClose, isMobile }
 
         {/* Color Spectrum */}
         <div className="mb-8">
-          <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Renk Ailesi</h4>
+          <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Color Family</h4>
           <div className="grid grid-cols-5 gap-2">
             {COLOR_OPTIONS.map(c => (
               <button
@@ -127,7 +127,7 @@ export default function FilterSidebar({ filters, setFilters, onClose, isMobile }
 
         {/* Category */}
         <div className="mb-8">
-          <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Kategori</h4>
+          <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Category</h4>
           <div className="flex flex-wrap gap-2">
             {CATEGORIES.map(cat => (
               <button
@@ -147,7 +147,7 @@ export default function FilterSidebar({ filters, setFilters, onClose, isMobile }
 
         {/* Origin */}
         <div className="mb-8">
-          <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Menşei</h4>
+          <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Origin</h4>
           <div className="flex flex-wrap gap-2">
             {ORIGINS.map(origin => (
               <button
@@ -167,7 +167,7 @@ export default function FilterSidebar({ filters, setFilters, onClose, isMobile }
 
         {/* Finish */}
         <div className="mb-8">
-          <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Yüzey İşlemi</h4>
+          <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Surface Finish</h4>
           <div className="flex flex-wrap gap-2">
             {FINISHES.map(f => (
               <button
@@ -187,7 +187,7 @@ export default function FilterSidebar({ filters, setFilters, onClose, isMobile }
 
         {/* Pattern Density */}
         <div className="mb-8">
-          <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Desen Yoğunluğu</h4>
+          <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Pattern Density</h4>
           <div className="flex flex-wrap gap-2">
             {PATTERNS.map(p => (
               <button
@@ -207,7 +207,7 @@ export default function FilterSidebar({ filters, setFilters, onClose, isMobile }
 
         {isMobile && (
           <Button onClick={onClose} className="w-full mt-4">
-            Sonuçları Göster
+            Show Results
           </Button>
         )}
       </div>

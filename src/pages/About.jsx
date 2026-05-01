@@ -3,13 +3,13 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
-const ABOUT_IMAGE = 'https://media.base44.com/images/public/69f2e4b70bf151eda077e6ed/3b85f2360_generated_eb7782aa.png';
+const ABOUT_IMAGE = '/__generating__/img_bb5a174bd368.png';
 
 const values = [
-  { num: '01', title: 'Jeolojik Bütünlük', desc: 'Her levhayı kaynağından izleyerek, doğanın milyonlarca yıllık eserine saygı duyuyoruz.' },
-  { num: '02', title: 'Mimari Mükemmellik', desc: 'Dünyanın en prestijli projelerinde, en yüksek standartlara uygun mermerler sunuyoruz.' },
-  { num: '03', title: 'Sürdürülebilir Çıkarım', desc: 'Çevreye duyarlı ocak işletmeciliği ve sorumlu kaynak yönetimi ilkelerimizin temelidir.' },
-  { num: '04', title: 'Küresel Erişim', desc: '24 ülkede faaliyet göstererek, dünya genelinde premium mermer erişimi sağlıyoruz.' },
+  { num: '01', title: 'Geological Integrity', desc: 'We trace every slab to its source, honouring nature\'s work spanning millions of years.' },
+  { num: '02', title: 'Architectural Excellence', desc: 'We supply marble that meets the highest standards for the world\'s most prestigious projects.' },
+  { num: '03', title: 'Sustainable Extraction', desc: 'Environmentally conscious quarrying and responsible resource management are our foundation.' },
+  { num: '04', title: 'Global Reach', desc: 'Operating in 24 countries, we provide access to premium marble across the globe.' },
 ];
 
 export default function About() {
@@ -17,7 +17,7 @@ export default function About() {
     <div className="pt-20 lg:pt-24 min-h-screen">
       {/* Hero */}
       <div className="relative h-[60vh] lg:h-[70vh] overflow-hidden">
-        <img src={ABOUT_IMAGE} alt="Mimari mermer merdiven" className="w-full h-full object-cover" />
+        <img src={ABOUT_IMAGE} alt="Architectural marble staircase" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-black/30" />
         <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-16">
           <motion.div
@@ -25,11 +25,11 @@ export default function About() {
             animate={{ opacity: 1, y: 0 }}
             className="max-w-[1600px] mx-auto"
           >
-            <p className="text-xs tracking-[0.4em] uppercase text-white/60 mb-3">Hakkımızda</p>
+            <p className="text-xs tracking-[0.4em] uppercase text-white/60 mb-3">About Us</p>
             <h1 className="font-display text-4xl lg:text-7xl font-bold text-white tracking-tight">
-              Taşın Hikâyesi,
+              The Story of Stone,
               <br />
-              <span className="italic font-normal">Bizim Hikâyemiz.</span>
+              <span className="italic font-normal">Our Story.</span>
             </h1>
           </motion.div>
         </div>
@@ -43,9 +43,9 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <p className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-6">Vizyonumuz</p>
+            <p className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-6">Our Vision</p>
             <h2 className="font-display text-3xl lg:text-4xl font-semibold leading-snug tracking-tight">
-              Dünyanın en derin ocaklarından, en zarif mekânlara köprü kuruyoruz.
+              We bridge the world's deepest quarries with the world's most elegant spaces.
             </h2>
           </motion.div>
 
@@ -57,13 +57,13 @@ export default function About() {
             className="text-base leading-[1.8] text-muted-foreground"
           >
             <p className="mb-6">
-              40 yılı aşkın süredir, Lithic Monolith olarak dünyanın en prestijli mermer ocaklarından
-              en kaliteli doğal taşları seçiyor, işliyor ve dünya genelindeki mimari projelere sunuyoruz.
+              For over 40 years, Lithic Monolith has sourced the finest natural stone from the world's most
+              prestigious quarries, processing and delivering them to architectural projects across the globe.
             </p>
             <p>
-              Her mermer levha, milyonlarca yıllık jeolojik süreçlerin benzersiz bir eseridir.
-              Biz bu eserleri, modern mimarinin zarafetiyle buluşturarak, mekânlara zamansız
-              bir karakter kazandırıyoruz.
+              Every marble slab is a unique masterpiece of millions of years of geological process.
+              We unite these masterpieces with the elegance of modern architecture, giving spaces
+              a timeless character.
             </p>
           </motion.div>
         </div>
@@ -98,13 +98,13 @@ export default function About() {
           viewport={{ once: true }}
         >
           <h2 className="font-display text-3xl lg:text-5xl font-semibold tracking-tight mb-6">
-            Projenizi Birlikte Şekillendirelim
+            Let's Shape Your Project Together
           </h2>
           <Link
             to="/contact"
             className="inline-flex items-center gap-2 bg-foreground text-background px-8 py-4 text-sm tracking-widest uppercase hover:opacity-90 transition-opacity"
           >
-            İletişime Geçin
+            Get in Touch
             <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>

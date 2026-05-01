@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const categories = [
-  { id: 'slab', label: 'Levhalar', desc: 'Büyük ölçekli projeler için' },
-  { id: 'tile', label: 'Karolar', desc: 'Zemin ve duvar kaplamaları' },
-  { id: 'block', label: 'Bloklar', desc: 'Ham ocak blokları' },
-  { id: 'countertop', label: 'Tezgahlar', desc: 'Mutfak ve banyo' },
-  { id: 'mosaic', label: 'Mozaikler', desc: 'Dekoratif desenler' },
+  { id: 'slab', label: 'Slabs', desc: 'For large-scale projects' },
+  { id: 'tile', label: 'Tiles', desc: 'Floor and wall cladding' },
+  { id: 'block', label: 'Blocks', desc: 'Raw quarry blocks' },
+  { id: 'countertop', label: 'Countertops', desc: 'Kitchen and bathroom' },
+  { id: 'mosaic', label: 'Mosaics', desc: 'Decorative patterns' },
 ];
 
 export default function CategoryShowcase() {
@@ -21,10 +21,10 @@ export default function CategoryShowcase() {
           className="mb-16"
         >
           <p className="text-xs tracking-[0.4em] uppercase opacity-40 mb-3">
-            Kategoriler
+            Categories
           </p>
           <h2 className="font-display text-4xl lg:text-6xl font-semibold tracking-tight">
-            Mineral Arşivi
+            Mineral Archive
           </h2>
         </motion.div>
 

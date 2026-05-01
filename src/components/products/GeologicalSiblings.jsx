@@ -27,9 +27,9 @@ export default function GeologicalSiblings({ currentProduct }) {
         viewport={{ once: true }}
         className="mb-8"
       >
-        <p className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-2">Jeolojik Kardeşler</p>
+        <p className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-2">Geological Siblings</p>
         <h2 className="font-display text-2xl lg:text-3xl font-semibold tracking-tight">
-          Benzer Yapılar
+          Similar Formations
         </h2>
       </motion.div>
 

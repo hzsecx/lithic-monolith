@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SlidersHorizontal, Grid3X3, LayoutGrid, Search } from 'lucide-react';
+import { SlidersHorizontal, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import FilterSidebar from '../components/products/FilterSidebar';
@@ -21,8 +21,7 @@ export default function Products() {
     priceRange: null,
   });
 
-  // Read initial category from URL
-  React.useEffect(() => {
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const cat = params.get('category');
     if (cat) {
@@ -38,7 +37,6 @@ export default function Products() {
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    // Search
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       result = result.filter(p =>
@@ -48,36 +46,17 @@ export default function Products() {
       );
     }
 
-    // Filters
-    if (filters.colors.length > 0) {
-      result = result.filter(p => filters.colors.includes(p.color_family));
-    }
-    if (filters.origins.length > 0) {
-      result = result.filter(p => filters.origins.includes(p.origin));
-    }
-    if (filters.finishes.length > 0) {
-      result = result.filter(p => filters.finishes.includes(p.finish));
-    }
-    if (filters.patterns.length > 0) {
-      result = result.filter(p => filters.patterns.includes(p.pattern_density));
-    }
-    if (filters.categories.length > 0) {
-      result = result.filter(p => filters.categories.includes(p.category));
-    }
+    if (filters.colors.length > 0) result = result.filter(p => filters.colors.includes(p.color_family));
+    if (filters.origins.length > 0) result = result.filter(p => filters.origins.includes(p.origin));
+    if (filters.finishes.length > 0) result = result.filter(p => filters.finishes.includes(p.finish));
+    if (filters.patterns.length > 0) result = result.filter(p => filters.patterns.includes(p.pattern_density));
+    if (filters.categories.length > 0) result = result.filter(p => filters.categories.includes(p.category));
 
-    // Sort
     switch (sortBy) {
-      case 'price_asc':
-        result.sort((a, b) => (a.price_per_sqm || 0) - (b.price_per_sqm || 0));
-        break;
-      case 'price_desc':
-        result.sort((a, b) => (b.price_per_sqm || 0) - (a.price_per_sqm || 0));
-        break;
-      case 'name':
-        result.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
-        break;
-      default:
-        break;
+      case 'price_asc': result.sort((a, b) => (a.price_per_sqm || 0) - (b.price_per_sqm || 0)); break;
+      case 'price_desc': result.sort((a, b) => (b.price_per_sqm || 0) - (a.price_per_sqm || 0)); break;
+      case 'name': result.sort((a, b) => (a.name || '').localeCompare(b.name || '')); break;
+      default: break;
     }
 
     return result;
@@ -87,12 +66,9 @@ export default function Products() {
     <div className="pt-20 lg:pt-24 min-h-screen">
       {/* Page Header */}
       <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-8 lg:py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <p className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-2">Mineral Arşivi</p>
-          <h1 className="font-display text-4xl lg:text-5xl font-semibold tracking-tight">Koleksiyon</h1>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          <p className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-2">Mineral Archive</p>
+          <h1 className="font-display text-4xl lg:text-5xl font-semibold tracking-tight">Collection</h1>
         </motion.div>
 
         {/* Search & Controls */}
@@ -100,7 +76,7 @@ export default function Products() {
           <div className="relative w-full sm:w-80">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Mermer ara..."
+              placeholder="Search marble..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 bg-transparent border-border"
@@ -112,21 +88,21 @@ export default function Products() {
               className="lg:hidden flex items-center gap-2 text-sm border border-border px-4 py-2 rounded"
             >
               <SlidersHorizontal className="w-4 h-4" />
-              Filtreler
+              Filters
             </button>
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-44 bg-transparent">
+              <SelectTrigger className="w-48 bg-transparent">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="newest">En Yeni</SelectItem>
-                <SelectItem value="price_asc">Fiyat: Düşük → Yüksek</SelectItem>
-                <SelectItem value="price_desc">Fiyat: Yüksek → Düşük</SelectItem>
-                <SelectItem value="name">İsim A-Z</SelectItem>
+                <SelectItem value="newest">Newest</SelectItem>
+                <SelectItem value="price_asc">Price: Low → High</SelectItem>
+                <SelectItem value="price_desc">Price: High → Low</SelectItem>
+                <SelectItem value="name">Name A–Z</SelectItem>
               </SelectContent>
             </Select>
             <span className="text-sm text-muted-foreground hidden sm:block">
-              {filteredProducts.length} ürün
+              {filteredProducts.length} results
             </span>
           </div>
         </div>
@@ -150,8 +126,8 @@ export default function Products() {
               </div>
             ) : filteredProducts.length === 0 ? (
               <div className="text-center py-24">
-                <p className="font-display text-2xl text-muted-foreground">Sonuç bulunamadı</p>
-                <p className="text-sm text-muted-foreground mt-2">Filtrelerinizi değiştirmeyi deneyin</p>
+                <p className="font-display text-2xl text-muted-foreground">No results found</p>
+                <p className="text-sm text-muted-foreground mt-2">Try adjusting your filters</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">

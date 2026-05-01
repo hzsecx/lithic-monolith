@@ -17,46 +17,46 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm leading-relaxed opacity-60 max-w-xs">
-              Dünyanın en seçkin mermer koleksiyonları. Taşın ham gücü, mimarinin zarafeti.
+              The world's most distinguished marble collections. The raw power of stone, the elegance of architecture.
             </p>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="text-xs tracking-[0.3em] uppercase mb-6 opacity-40">Keşfet</h4>
+            <h4 className="text-xs tracking-[0.3em] uppercase mb-6 opacity-40">Explore</h4>
             <div className="flex flex-col gap-3">
-              <Link to="/products" className="text-sm opacity-60 hover:opacity-100 transition-opacity">Koleksiyon</Link>
-              <Link to="/products?category=slab" className="text-sm opacity-60 hover:opacity-100 transition-opacity">Mermer Levhalar</Link>
-              <Link to="/products?category=tile" className="text-sm opacity-60 hover:opacity-100 transition-opacity">Mermer Karolar</Link>
-              <Link to="/products?category=block" className="text-sm opacity-60 hover:opacity-100 transition-opacity">Mermer Bloklar</Link>
+              <Link to="/products" className="text-sm opacity-60 hover:opacity-100 transition-opacity">Collection</Link>
+              <Link to="/products?category=slab" className="text-sm opacity-60 hover:opacity-100 transition-opacity">Marble Slabs</Link>
+              <Link to="/products?category=tile" className="text-sm opacity-60 hover:opacity-100 transition-opacity">Marble Tiles</Link>
+              <Link to="/products?category=block" className="text-sm opacity-60 hover:opacity-100 transition-opacity">Marble Blocks</Link>
             </div>
           </div>
 
           {/* Company */}
           <div>
-            <h4 className="text-xs tracking-[0.3em] uppercase mb-6 opacity-40">Şirket</h4>
+            <h4 className="text-xs tracking-[0.3em] uppercase mb-6 opacity-40">Company</h4>
             <div className="flex flex-col gap-3">
-              <Link to="/about" className="text-sm opacity-60 hover:opacity-100 transition-opacity">Hakkımızda</Link>
-              <Link to="/contact" className="text-sm opacity-60 hover:opacity-100 transition-opacity">İletişim</Link>
-              <Link to="/project" className="text-sm opacity-60 hover:opacity-100 transition-opacity">Proje Paletim</Link>
+              <Link to="/about" className="text-sm opacity-60 hover:opacity-100 transition-opacity">About</Link>
+              <Link to="/contact" className="text-sm opacity-60 hover:opacity-100 transition-opacity">Contact</Link>
+              <Link to="/project" className="text-sm opacity-60 hover:opacity-100 transition-opacity">My Project Palette</Link>
             </div>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="text-xs tracking-[0.3em] uppercase mb-6 opacity-40">İletişim</h4>
+            <h4 className="text-xs tracking-[0.3em] uppercase mb-6 opacity-40">Contact</h4>
             <div className="flex flex-col gap-3 text-sm opacity-60">
               <p>info@lithicmonolith.com</p>
               <p>+90 (212) 555 0123</p>
-              <p>İstanbul, Türkiye</p>
+              <p>Istanbul, Turkey</p>
             </div>
           </div>
         </div>
 
         {/* Bottom */}
         <div className="mt-16 pt-8 border-t border-current/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs opacity-30">© 2026 Lithic Monolith. Tüm hakları saklıdır.</p>
-          <p className="text-xs opacity-30 tracking-widest uppercase">Dünya, Küratörlüğünde</p>
+          <p className="text-xs opacity-30">© 2026 Lithic Monolith. All rights reserved.</p>
+          <p className="text-xs opacity-30 tracking-widest uppercase">World, Curated.</p>
         </div>
       </div>
     </footer>

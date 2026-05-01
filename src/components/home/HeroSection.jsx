@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 
 const FINISHES = [
-  { label: 'Cilalı', id: 'polished' },
-  { label: 'Honlanmış', id: 'honed' },
-  { label: 'Deri Doku', id: 'leathered' },
+  { label: 'Polished', id: 'polished' },
+  { label: 'Honed', id: 'honed' },
+  { label: 'Leathered', id: 'leathered' },
 ];
 
 export default function HeroSection({ heroImage }) {
@@ -23,7 +23,7 @@ export default function HeroSection({ heroImage }) {
       >
         <img
           src={heroImage}
-          alt="Mermer ocağı manzarası"
+          alt="Marble quarry landscape"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
@@ -37,7 +37,7 @@ export default function HeroSection({ heroImage }) {
           transition={{ delay: 0.3 }}
           className="text-xs sm:text-sm tracking-[0.4em] uppercase mb-6 opacity-70"
         >
-          Dünya, Küratörlüğünde
+          World, Curated.
         </motion.p>
 
         <motion.h1
@@ -46,9 +46,9 @@ export default function HeroSection({ heroImage }) {
           transition={{ delay: 0.5, duration: 0.8 }}
           className="font-display text-5xl sm:text-7xl lg:text-[8rem] font-bold leading-[0.9] text-center tracking-tight"
         >
-          DÜNYA,
+          THE WORLD,
           <br />
-          <span className="italic font-normal">Küratörlüğünde.</span>
+          <span className="italic font-normal">Curated.</span>
         </motion.h1>
 
         <motion.p
@@ -57,7 +57,7 @@ export default function HeroSection({ heroImage }) {
           transition={{ delay: 0.9 }}
           className="mt-8 text-sm sm:text-base max-w-md text-center leading-relaxed opacity-70"
         >
-          Dünyanın en prestijli ocaklarından çıkarılmış, eşsiz mermer koleksiyonları.
+          Exceptional marble collections sourced from the world's most prestigious quarries.
         </motion.p>
 
         <motion.div
@@ -70,14 +70,14 @@ export default function HeroSection({ heroImage }) {
             to="/products"
             className="flex items-center gap-2 bg-white text-black px-8 py-4 text-sm tracking-widest uppercase hover:bg-white/90 transition-all group"
           >
-            Koleksiyonu Keşfet
+            Explore Collection
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
           <Link
             to="/contact"
             className="flex items-center gap-2 border border-white/40 px-8 py-4 text-sm tracking-widest uppercase hover:bg-white/10 transition-all"
           >
-            Numune Talep Et
+            Request Sample
           </Link>
         </motion.div>
       </div>
@@ -92,7 +92,7 @@ export default function HeroSection({ heroImage }) {
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 pb-8">
           <div className="flex items-center gap-6">
             <span className="text-white/40 text-xs tracking-[0.3em] uppercase hidden sm:block">
-              Yüzey
+              Surface
             </span>
             <div className="flex gap-1 bg-white/10 backdrop-blur-md rounded-full p-1">
               {FINISHES.map((finish, i) => (

@@ -17,10 +17,10 @@ export default function FeaturedGrid({ products }) {
           className="mb-16"
         >
           <p className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-3">
-            Öne Çıkanlar
+            Featured
           </p>
           <h2 className="font-display text-4xl lg:text-6xl font-semibold tracking-tight">
-            Seçkin Koleksiyon
+            Distinguished Collection
           </h2>
         </motion.div>
 
@@ -47,13 +47,13 @@ export default function FeaturedGrid({ products }) {
                       />
                     ) : (
                       <div className="w-full h-full bg-muted flex items-center justify-center">
-                        <span className="text-muted-foreground text-sm">Görsel</span>
+                        <span className="text-muted-foreground text-sm">Image</span>
                       </div>
                     )}
 
-                    {/* Hover Overlay - Geological Profile */}
+                    {/* Hover Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    
+
                     {/* Vein Glow Effect */}
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
 
@@ -62,7 +62,7 @@ export default function FeaturedGrid({ products }) {
                       <div className="flex justify-between items-end">
                         <div>
                           <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-1">
-                            {product.origin || 'Türkiye'}
+                            {product.origin || 'Turkey'}
                           </p>
                           <h3 className="text-white font-display text-xl lg:text-2xl font-semibold">
                             {product.name}
@@ -75,7 +75,7 @@ export default function FeaturedGrid({ products }) {
                             )}
                             {product.hardness && (
                               <span className="text-white/50 text-xs">
-                                Sertlik: {product.hardness}
+                                Hardness: {product.hardness}
                               </span>
                             )}
                           </div>
@@ -87,7 +87,7 @@ export default function FeaturedGrid({ products }) {
                     {/* Stock Badge */}
                     {product.stock_status === 'low_stock' && (
                       <div className="absolute top-4 left-4 bg-foreground/80 text-background text-[10px] tracking-[0.2em] uppercase px-3 py-1.5">
-                        Sınırlı Stok
+                        Limited Stock
                       </div>
                     )}
                   </div>
@@ -116,7 +116,7 @@ export default function FeaturedGrid({ products }) {
             to="/products"
             className="inline-flex items-center gap-2 text-sm tracking-[0.2em] uppercase border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
           >
-            Tüm Koleksiyonu Gör
+            View Full Collection
             <ArrowUpRight className="w-4 h-4" />
           </Link>
         </motion.div>

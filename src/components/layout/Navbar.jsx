@@ -23,9 +23,9 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { label: 'Koleksiyon', path: '/products' },
-    { label: 'Hakkımızda', path: '/about' },
-    { label: 'İletişim', path: '/contact' },
+    { label: 'Collection', path: '/products' },
+    { label: 'About', path: '/about' },
+    { label: 'Contact', path: '/contact' },
   ];
 
   return (

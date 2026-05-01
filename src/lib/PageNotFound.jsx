@@ -30,10 +30,10 @@ export default function PageNotFound({}) {
                     
                     <div className="space-y-3">
                         <h2 className="text-2xl font-display font-medium text-foreground">
-                            Sayfa Bulunamadı
+                            Page Not Found
                         </h2>
                         <p className="text-muted-foreground leading-relaxed text-sm">
-                            <span className="font-medium text-foreground">"{pageName}"</span> sayfası bulunamadı.
+                            The page <span className="font-medium text-foreground">"{pageName}"</span> could not be found.
                         </p>
                     </div>
                     
@@ -50,7 +50,7 @@ export default function PageNotFound({}) {
                             onClick={() => window.location.href = '/'} 
                             className="inline-flex items-center px-6 py-3 text-sm tracking-widest uppercase bg-foreground text-background hover:opacity-90 transition-opacity"
                         >
-                            Ana Sayfa
+                            Go Home
                         </button>
                     </div>
                 </div>

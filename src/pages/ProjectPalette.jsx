@@ -19,7 +19,7 @@ export default function ProjectPalette() {
     mutationFn: (id) => base44.entities.ProjectItem.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projectItems'] });
-      toast({ title: 'Ürün kaldırıldı' });
+      toast({ title: 'Item removed' });
     },
   });
 
@@ -31,12 +31,12 @@ export default function ProjectPalette() {
       <div className="max-w-[1200px] mx-auto px-6 lg:px-12 py-8 lg:py-12">
         <Link to="/products" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8">
           <ArrowLeft className="w-4 h-4" />
-          Koleksiyona Dön
+          Back to Collection
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <p className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-2">Proje Paleti</p>
-          <h1 className="font-display text-4xl lg:text-5xl font-semibold tracking-tight">Seçimleriniz</h1>
+          <p className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-2">Project Palette</p>
+          <h1 className="font-display text-4xl lg:text-5xl font-semibold tracking-tight">Your Selection</h1>
         </motion.div>
 
         {isLoading ? (
@@ -48,10 +48,10 @@ export default function ProjectPalette() {
         ) : items.length === 0 ? (
           <div className="mt-20 text-center">
             <ShoppingBag className="w-12 h-12 mx-auto text-muted-foreground/30 mb-4" />
-            <p className="font-display text-2xl text-muted-foreground">Paletiniz boş</p>
-            <p className="text-sm text-muted-foreground mt-2 mb-6">Koleksiyondan mermer seçerek başlayın</p>
+            <p className="font-display text-2xl text-muted-foreground">Your palette is empty</p>
+            <p className="text-sm text-muted-foreground mt-2 mb-6">Browse the collection and add stones to get started</p>
             <Link to="/products">
-              <Button variant="outline">Koleksiyonu Keşfet</Button>
+              <Button variant="outline">Explore Collection</Button>
             </Link>
           </div>
         ) : (
@@ -102,19 +102,19 @@ export default function ProjectPalette() {
             {/* Summary */}
             <div className="lg:sticky lg:top-28 h-fit">
               <div className="border border-border rounded-lg p-6">
-                <h3 className="font-display text-lg font-semibold mb-6">Proje Özeti</h3>
+                <h3 className="font-display text-lg font-semibold mb-6">Project Summary</h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Ürün Sayısı</span>
+                    <span className="text-muted-foreground">Items</span>
                     <span>{items.length}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Toplam Alan</span>
+                    <span className="text-muted-foreground">Total Area</span>
                     <span>{totalArea} m²</span>
                   </div>
                   <div className="border-t border-border my-3" />
                   <div className="flex justify-between text-lg font-semibold">
-                    <span>Tahmini Toplam</span>
+                    <span>Estimated Total</span>
                     <span>${totalPrice.toFixed(0)}</span>
                   </div>
                 </div>
@@ -122,12 +122,12 @@ export default function ProjectPalette() {
                 <Link to="/contact" className="block mt-6">
                   <Button className="w-full h-12 tracking-widest uppercase text-sm">
                     <Send className="w-4 h-4 mr-2" />
-                    Teklif İste
+                    Request Quote
                   </Button>
                 </Link>
 
                 <p className="text-[10px] text-muted-foreground text-center mt-3 leading-relaxed">
-                  Fiyatlar tahminidir. Kesin fiyat için satış ekibimiz sizinle iletişime geçecektir.
+                  Prices are estimates. Our sales team will confirm final pricing.
                 </p>
               </div>
             </div>

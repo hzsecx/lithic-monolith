@@ -2,10 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const stats = [
-  { value: '150+', label: 'Mermer Çeşidi' },
-  { value: '24', label: 'Ülke' },
-  { value: '40+', label: 'Yıllık Deneyim' },
-  { value: '10K+', label: 'Tamamlanan Proje' },
+  { value: '150+', label: 'Marble Varieties' },
+  { value: '24', label: 'Countries' },
+  { value: '40+', label: 'Years of Expertise' },
+  { value: '10K+', label: 'Completed Projects' },
 ];
 
 export default function StatsSection() {

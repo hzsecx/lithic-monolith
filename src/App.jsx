@@ -24,7 +24,7 @@ const AuthenticatedApp = () => {
           <div className="w-8 h-8 border border-foreground flex items-center justify-center">
             <div className="w-3 h-3 bg-foreground animate-pulse" />
           </div>
-          <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground">Yükleniyor</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground">Loading</p>
         </div>
       </div>
     );

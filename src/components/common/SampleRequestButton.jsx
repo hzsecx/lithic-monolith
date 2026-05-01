@@ -15,7 +15,7 @@ export default function SampleRequestButton() {
         className="flex items-center gap-2 bg-primary text-primary-foreground px-5 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm font-medium tracking-wide"
       >
         <Package className="w-4 h-4" />
-        <span className="hidden sm:inline">Numune Talep Et</span>
+        <span className="hidden sm:inline">Request Sample</span>
       </Link>
     </motion.div>
   );

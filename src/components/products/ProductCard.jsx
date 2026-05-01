@@ -3,6 +3,14 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, MapPin } from 'lucide-react';
 
+const FINISH_LABELS = {
+  polished: 'Polished',
+  honed: 'Honed',
+  leathered: 'Leathered',
+  brushed: 'Brushed',
+  tumbled: 'Tumbled',
+};
+
 export default function ProductCard({ product, index, isLarge }) {
   return (
     <motion.div
@@ -39,19 +47,19 @@ export default function ProductCard({ product, index, isLarge }) {
               <div className="grid grid-cols-3 gap-2 text-[10px] text-white/70 tracking-wider uppercase">
                 {product.origin && (
                   <div>
-                    <p className="text-white/40">Menşei</p>
+                    <p className="text-white/40">Origin</p>
                     <p className="text-white">{product.origin}</p>
                   </div>
                 )}
                 {product.hardness && (
                   <div>
-                    <p className="text-white/40">Sertlik</p>
+                    <p className="text-white/40">Hardness</p>
                     <p className="text-white">{product.hardness} Mohs</p>
                   </div>
                 )}
                 {product.vein_type && (
                   <div>
-                    <p className="text-white/40">Damar</p>
+                    <p className="text-white/40">Vein</p>
                     <p className="text-white">{product.vein_type}</p>
                   </div>
                 )}
@@ -63,12 +71,12 @@ export default function ProductCard({ product, index, isLarge }) {
           <div className="absolute top-3 left-3 flex flex-col gap-1.5">
             {product.stock_status === 'low_stock' && (
               <span className="bg-foreground text-background text-[10px] tracking-[0.15em] uppercase px-2.5 py-1">
-                Sınırlı
+                Limited
               </span>
             )}
             {product.featured && (
               <span className="bg-primary text-primary-foreground text-[10px] tracking-[0.15em] uppercase px-2.5 py-1">
-                Öne Çıkan
+                Featured
               </span>
             )}
           </div>
