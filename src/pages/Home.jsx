@@ -15,7 +15,7 @@ export default function Home() {
   });
 
   return (
-    <div>
+    <div style={{ backgroundColor: '#0A0A0A' }}>
       <HeroSection heroImage={HERO_IMAGE} />
       <StatsSection />
       <FeaturedGrid products={products} />

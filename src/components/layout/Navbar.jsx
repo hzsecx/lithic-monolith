@@ -28,25 +28,26 @@ export default function Navbar() {
     { label: 'Contact', path: '/contact' },
   ];
 
+  const isDark = isHome && !scrolled;
+
   return (
     <>
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled || !isHome
-            ? 'bg-background/90 backdrop-blur-xl border-b border-border/50 shadow-sm'
-            : 'bg-transparent'
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+        style={{
+          backgroundColor: scrolled || !isHome ? 'rgba(10,10,10,0.95)' : 'transparent',
+          backdropFilter: scrolled || !isHome ? 'blur(16px)' : 'none',
+          borderBottom: scrolled || !isHome ? '1px solid #C9A96E22' : 'none',
+        }}
       >
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-8 h-8 border border-current flex items-center justify-center">
-                <div className="w-3 h-3 bg-current" />
-              </div>
-              <span className={`font-display text-lg lg:text-xl font-semibold tracking-wider uppercase transition-colors ${
-                scrolled || !isHome ? 'text-foreground' : 'text-white'
-              }`}>
+              <span
+                className="font-display text-xl lg:text-2xl font-bold tracking-widest uppercase"
+                style={{ color: isDark ? '#C9A96E' : '#C9A96E' }}
+              >
                 Lithic
               </span>
             </Link>
@@ -57,9 +58,12 @@ export default function Navbar() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-60 ${
-                    scrolled || !isHome ? 'text-foreground' : 'text-white'
-                  } ${location.pathname === link.path ? 'opacity-60' : ''}`}
+                  className="text-xs tracking-[0.3em] uppercase transition-all duration-300"
+                  style={{
+                    color: location.pathname === link.path ? '#C9A96E' : 'rgba(255,255,255,0.7)',
+                  }}
+                  onMouseEnter={e => e.target.style.color = '#C9A96E'}
+                  onMouseLeave={e => e.target.style.color = location.pathname === link.path ? '#C9A96E' : 'rgba(255,255,255,0.7)'}
                 >
                   {link.label}
                 </Link>
@@ -68,34 +72,25 @@ export default function Navbar() {
 
             {/* Right Actions */}
             <div className="flex items-center gap-4">
-              <Link
-                to="/products"
-                className={`hidden lg:flex transition-colors ${
-                  scrolled || !isHome ? 'text-foreground' : 'text-white'
-                }`}
-              >
-                <Search className="w-5 h-5" />
+              <Link to="/products" className="hidden lg:flex text-white/60 hover:text-white transition-colors">
+                <Search className="w-4 h-4" />
               </Link>
-              <Link
-                to="/project"
-                className={`relative transition-colors ${
-                  scrolled || !isHome ? 'text-foreground' : 'text-white'
-                }`}
-              >
-                <ShoppingBag className="w-5 h-5" />
+              <Link to="/project" className="relative text-white/60 hover:text-white transition-colors">
+                <ShoppingBag className="w-4 h-4" />
                 {cartItems.length > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-semibold rounded-full flex items-center justify-center">
+                  <span
+                    className="absolute -top-1.5 -right-1.5 w-4 h-4 text-black text-[10px] font-bold rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: '#C9A96E' }}
+                  >
                     {cartItems.length}
                   </span>
                 )}
               </Link>
               <button
                 onClick={() => setMobileOpen(true)}
-                className={`lg:hidden transition-colors ${
-                  scrolled || !isHome ? 'text-foreground' : 'text-white'
-                }`}
+                className="lg:hidden text-white/70 hover:text-white transition-colors"
               >
-                <Menu className="w-6 h-6" />
+                <Menu className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -109,25 +104,30 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-background"
+            className="fixed inset-0 z-[100]"
+            style={{ backgroundColor: '#0A0A0A' }}
           >
-            <div className="flex justify-end p-6">
-              <button onClick={() => setMobileOpen(false)}>
-                <X className="w-6 h-6" />
+            <div className="flex justify-between items-center p-6" style={{ borderBottom: '1px solid #C9A96E22' }}>
+              <span className="font-display text-xl font-bold tracking-widest uppercase" style={{ color: '#C9A96E' }}>
+                Lithic
+              </span>
+              <button onClick={() => setMobileOpen(false)} className="text-white/60 hover:text-white">
+                <X className="w-5 h-5" />
               </button>
             </div>
-            <nav className="flex flex-col items-center gap-8 mt-20">
+            <nav className="flex flex-col gap-0 mt-4">
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.path}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
+                  style={{ borderBottom: '1px solid #C9A96E11' }}
                 >
                   <Link
                     to={link.path}
                     onClick={() => setMobileOpen(false)}
-                    className="font-display text-3xl tracking-wider"
+                    className="block px-6 py-5 font-display text-2xl text-white hover:text-[#C9A96E] transition-colors"
                   >
                     {link.label}
                   </Link>
