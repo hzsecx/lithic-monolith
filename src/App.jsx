@@ -15,7 +15,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 
 const AuthenticatedApp = () => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  const { isLoadingAuth, isLoadingPublicSettings } = useAuth();
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
@@ -28,15 +28,6 @@ const AuthenticatedApp = () => {
         </div>
       </div>
     );
-  }
-
-  if (authError) {
-    if (authError.type === 'user_not_registered') {
-      return <UserNotRegisteredError />;
-    } else if (authError.type === 'auth_required') {
-      navigateToLogin();
-      return null;
-    }
   }
 
   return (
