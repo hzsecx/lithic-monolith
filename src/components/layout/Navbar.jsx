@@ -101,26 +101,54 @@ export default function Navbar() {
                     >
                       {user.full_name?.charAt(0) || user.email?.charAt(0) || 'U'}
                     </button>
-                    {userMenuOpen && (
-                      <>
-                        <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)} />
-                        <div
-                          className="absolute right-0 top-10 z-50 min-w-[160px] py-2 rounded-sm shadow-xl"
-                          style={{ backgroundColor: '#111', border: '1px solid #C9A96E33' }}
-                        >
-                          <p className="px-4 py-2 text-xs text-white/40 truncate border-b border-white/10">
-                            {user.full_name || user.email}
-                          </p>
-                          <button
-                            onClick={() => { base44.auth.logout(); setUserMenuOpen(false); }}
-                            className="w-full flex items-center gap-2 px-4 py-2.5 text-xs tracking-wider text-white/70 hover:text-white hover:bg-white/5 transition-colors"
+                    <AnimatePresence>
+                      {userMenuOpen && (
+                        <>
+                          <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)} />
+                          <motion.div
+                            initial={{ opacity: 0, rotateX: -15, y: -8, scale: 0.95 }}
+                            animate={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, rotateX: -15, y: -8, scale: 0.95 }}
+                            transition={{ duration: 0.2, ease: 'easeOut' }}
+                            className="absolute right-0 top-10 z-50 min-w-[180px] py-2 rounded-xl shadow-2xl overflow-hidden"
+                            style={{
+                              background: 'linear-gradient(135deg, rgba(30,30,30,0.95) 0%, rgba(15,15,15,0.98) 100%)',
+                              border: '1px solid rgba(201,169,110,0.25)',
+                              backdropFilter: 'blur(24px)',
+                              transformOrigin: 'top right',
+                              transformStyle: 'preserve-3d',
+                              boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,169,110,0.1), inset 0 1px 0 rgba(255,255,255,0.05)',
+                            }}
                           >
-                            <LogOut className="w-3.5 h-3.5" />
-                            Sign Out
-                          </button>
-                        </div>
-                      </>
-                    )}
+                            {/* Gold top line */}
+                            <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(to right, transparent, #C9A96E, transparent)' }} />
+                            
+                            <div className="px-4 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                              <p className="text-[10px] tracking-[0.2em] uppercase mb-0.5" style={{ color: '#C9A96E' }}>Signed in as</p>
+                              <p className="text-xs text-white/60 truncate">{user.full_name || user.email}</p>
+                            </div>
+
+                            <div className="p-1.5">
+                              <button
+                                onClick={() => { base44.auth.logout(); setUserMenuOpen(false); }}
+                                className="w-full flex items-center gap-3 px-3 py-2.5 text-xs tracking-wider rounded-lg transition-all group"
+                                style={{ color: 'rgba(255,255,255,0.6)' }}
+                                onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(201,169,110,0.1)'}
+                                onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
+                              >
+                                <div
+                                  className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
+                                  style={{ backgroundColor: 'rgba(201,169,110,0.15)', border: '1px solid rgba(201,169,110,0.2)' }}
+                                >
+                                  <LogOut className="w-3 h-3" style={{ color: '#C9A96E' }} />
+                                </div>
+                                <span className="text-white/70">Sign Out</span>
+                              </button>
+                            </div>
+                          </motion.div>
+                        </>
+                      )}
+                    </AnimatePresence>
                   </>
                 ) : (
                   <button
