@@ -164,6 +164,58 @@ export default function Contact() {
           </motion.div>
         </div>
       </div>
+
+      {/* Full-width Map Section */}
+      {siteInfo.google_maps_url && (
+        <div className="relative mt-16 lg:mt-24">
+          {/* Top decorative border */}
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
+          {/* Label overlay */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 px-6 py-2 bg-background border border-border">
+            <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground">Our Location</p>
+          </div>
+
+          {/* Map container */}
+          <div className="relative w-full h-[480px] lg:h-[580px] overflow-hidden">
+            {/* Grayscale + blend overlay */}
+            <div className="absolute inset-0 z-10 pointer-events-none"
+              style={{
+                background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 8%, transparent 92%, hsl(var(--background)) 100%)',
+              }}
+            />
+            <div className="absolute inset-x-0 top-0 h-32 z-10 pointer-events-none"
+              style={{ background: 'linear-gradient(to bottom, hsl(var(--background)), transparent)' }}
+            />
+            <iframe
+              src={siteInfo.google_maps_url}
+              width="100%"
+              height="100%"
+              style={{ border: 0, filter: 'grayscale(100%) contrast(1.1) opacity(0.85)' }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+
+          {/* Bottom info bar */}
+          <div className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none">
+            <div className="max-w-[1600px] mx-auto px-6 lg:px-12 pb-8 flex items-end justify-between">
+              <div className="pointer-events-auto">
+                <p className="text-xs text-muted-foreground tracking-wider">{siteInfo.address}</p>
+              </div>
+              <a
+                href={siteInfo.google_maps_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pointer-events-auto inline-flex items-center gap-2 px-5 py-2.5 text-xs tracking-[0.2em] uppercase font-medium border border-foreground/20 bg-background/80 backdrop-blur-sm text-foreground hover:bg-foreground hover:text-background transition-all duration-300"
+              >
+                Open in Maps →
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
