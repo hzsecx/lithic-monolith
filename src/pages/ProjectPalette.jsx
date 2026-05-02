@@ -27,9 +27,9 @@ export default function ProjectPalette() {
   const totalPrice = items.reduce((sum, item) => sum + (item.price_per_sqm || 0) * (item.quantity_sqm || 0), 0);
   const totalArea = items.reduce((sum, item) => sum + (item.quantity_sqm || 0), 0);
 
-  const handleSquareCheckout = async () => {
+  const handleShopifyCheckout = async () => {
     setCheckoutLoading(true);
-    const res = await base44.functions.invoke('createSquareCheckout', {
+    const res = await base44.functions.invoke('createShopifyCheckout', {
       items,
       redirectUrl: window.location.href,
     });
@@ -135,7 +135,7 @@ export default function ProjectPalette() {
                 </div>
 
                 <Button
-                  onClick={handleSquareCheckout}
+                  onClick={handleShopifyCheckout}
                   disabled={checkoutLoading}
                   className="w-full h-12 tracking-widest uppercase text-sm mt-6"
                 >
@@ -144,7 +144,7 @@ export default function ProjectPalette() {
                   ) : (
                     <CreditCard className="w-4 h-4 mr-2" />
                   )}
-                  {checkoutLoading ? 'Redirecting...' : 'Pay with Square'}
+                  {checkoutLoading ? 'Redirecting...' : 'Checkout'}
                 </Button>
 
                 <Link to="/contact" className="block mt-3">
