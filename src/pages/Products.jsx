@@ -112,7 +112,7 @@ export default function Products() {
                 border: '1px solid rgba(255,255,255,0.1)',
               }}
             >
-              <FilterSidebar filters={filters} setFilters={setFilters} dark />
+              <FilterSidebar filters={filters} setFilters={setFilters} dark products={products} />
             </div>
           </div>
 
@@ -186,6 +186,7 @@ export default function Products() {
             onClose={() => setShowMobileFilters(false)}
             isMobile
             dark
+            products={products}
           />
         )}
       </AnimatePresence>

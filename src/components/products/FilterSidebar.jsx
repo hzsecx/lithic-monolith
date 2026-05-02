@@ -16,7 +16,7 @@ const COLOR_OPTIONS = [
   { id: 'gold', label: 'Gold', color: '#B8960C' },
 ];
 
-const ORIGINS = ['Italy', 'Turkey', 'Spain', 'Greece', 'Brazil', 'India', 'Portugal', 'Egypt'];
+
 const FINISHES = [
   { id: 'polished', label: 'Polished' },
   { id: 'honed', label: 'Honed' },
@@ -37,7 +37,8 @@ const CATEGORIES = [
   { id: 'mosaic', label: 'Mosaic' },
 ];
 
-export default function FilterSidebar({ filters, setFilters, onClose, isMobile, dark }) {
+export default function FilterSidebar({ filters, setFilters, onClose, isMobile, dark, products = [] }) {
+  const dynamicOrigins = [...new Set(products.map(p => p.origin).filter(Boolean))].sort();
   const updateFilter = (key, value) => {
     setFilters(prev => {
       const current = prev[key];
@@ -175,7 +176,7 @@ export default function FilterSidebar({ filters, setFilters, onClose, isMobile, 
         <div className="mb-6">
           <span style={sectionLabel}>Origin</span>
           <div className="flex flex-wrap gap-1.5">
-            {ORIGINS.map(origin => (
+            {dynamicOrigins.map(origin => (
               <button
                 key={origin}
                 onClick={() => updateFilter('origins', origin)}
