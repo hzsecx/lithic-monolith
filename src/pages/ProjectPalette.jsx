@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Trash2, ArrowLeft, ShoppingBag, Send } from 'lucide-react';
+import { Trash2, ArrowLeft, ShoppingBag, Send, CreditCard, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 
 export default function ProjectPalette() {
   const queryClient = useQueryClient();
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   const { data: items = [], isLoading } = useQuery({
     queryKey: ['projectItems'],
@@ -25,6 +26,20 @@ export default function ProjectPalette() {
 
   const totalPrice = items.reduce((sum, item) => sum + (item.price_per_sqm || 0) * (item.quantity_sqm || 0), 0);
   const totalArea = items.reduce((sum, item) => sum + (item.quantity_sqm || 0), 0);
+
+  const handleSquareCheckout = async () => {
+    setCheckoutLoading(true);
+    const res = await base44.functions.invoke('createSquareCheckout', {
+      items,
+      redirectUrl: window.location.href,
+    });
+    setCheckoutLoading(false);
+    if (res.data?.checkoutUrl) {
+      window.location.href = res.data.checkoutUrl;
+    } else {
+      toast({ title: 'Checkout failed', description: res.data?.error || 'Please try again.', variant: 'destructive' });
+    }
+  };
 
   return (
     <div className="pt-20 lg:pt-24 min-h-screen">
@@ -119,8 +134,21 @@ export default function ProjectPalette() {
                   </div>
                 </div>
 
-                <Link to="/contact" className="block mt-6">
-                  <Button className="w-full h-12 tracking-widest uppercase text-sm">
+                <Button
+                  onClick={handleSquareCheckout}
+                  disabled={checkoutLoading}
+                  className="w-full h-12 tracking-widest uppercase text-sm mt-6"
+                >
+                  {checkoutLoading ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <CreditCard className="w-4 h-4 mr-2" />
+                  )}
+                  {checkoutLoading ? 'Redirecting...' : 'Pay with Square'}
+                </Button>
+
+                <Link to="/contact" className="block mt-3">
+                  <Button variant="outline" className="w-full h-12 tracking-widest uppercase text-sm">
                     <Send className="w-4 h-4 mr-2" />
                     Request Quote
                   </Button>
