@@ -4,21 +4,35 @@ import { base44 } from '@/api/base44Client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import { Save, Settings, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Save, MapPin, Phone, Mail, Clock, Map } from 'lucide-react';
 import { useAuth } from '@/lib/AuthContext';
+import AdminLayout from '@/components/admin/AdminLayout';
+
+const inputStyle = { backgroundColor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)', color: 'white' };
+
+function SettingField({ icon: IconComp, label, children }) {
+  const Icon = IconComp;
+  return (
+    <div
+      className="flex flex-col sm:flex-row sm:items-center gap-4 p-5 rounded-xl"
+      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
+    >
+      <div className="flex items-center gap-3 sm:w-48 flex-shrink-0">
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(201,169,110,0.1)', border: '1px solid rgba(201,169,110,0.2)' }}>
+          <Icon className="w-4 h-4" style={{ color: '#C9A96E' }} />
+        </div>
+        <label className="text-sm font-medium text-white/60">{label}</label>
+      </div>
+      <div className="flex-1">{children}</div>
+    </div>
+  );
+}
 
 export default function AdminSettings() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [form, setForm] = useState({
-    address: '',
-    phone: '',
-    email: '',
-    working_hours: '',
-    google_maps_url: '',
-  });
+  const [form, setForm] = useState({ address: '', phone: '', email: '', working_hours: '', google_maps_url: '' });
 
   const { data: settings = [] } = useQuery({
     queryKey: ['siteSettings'],
@@ -28,110 +42,57 @@ export default function AdminSettings() {
   useEffect(() => {
     if (settings.length > 0) {
       const s = settings[0];
-      setForm({
-        address: s.address || '',
-        phone: s.phone || '',
-        email: s.email || '',
-        working_hours: s.working_hours || '',
-        google_maps_url: s.google_maps_url || '',
-      });
+      setForm({ address: s.address || '', phone: s.phone || '', email: s.email || '', working_hours: s.working_hours || '', google_maps_url: s.google_maps_url || '' });
     }
   }, [settings]);
 
   const mutation = useMutation({
     mutationFn: async (data) => {
-      if (settings.length > 0) {
-        return base44.entities.SiteSettings.update(settings[0].id, data);
-      } else {
-        return base44.entities.SiteSettings.create(data);
-      }
+      if (settings.length > 0) return base44.entities.SiteSettings.update(settings[0].id, data);
+      return base44.entities.SiteSettings.create(data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['siteSettings'] });
-      toast({ title: 'Saved', description: 'Site information updated successfully.' });
+      toast({ title: 'Kaydedildi', description: 'Site bilgileri güncellendi.' });
     },
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    mutation.mutate(form);
-  };
+  if (user?.role !== 'admin') return null;
 
-  if (user?.role !== 'admin') {
-    return (
-      <div className="pt-32 min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Access restricted to administrators.</p>
-      </div>
-    );
-  }
+  const fields = [
+    { key: 'address', label: 'Adres', icon: MapPin, placeholder: 'Maslak, İstanbul, Türkiye' },
+    { key: 'phone', label: 'Telefon', icon: Phone, placeholder: '+90 (212) 555 01 23' },
+    { key: 'email', label: 'E-posta', icon: Mail, placeholder: 'info@lithicmonolith.com' },
+    { key: 'working_hours', label: 'Çalışma Saatleri', icon: Clock, placeholder: 'Pzt–Cum: 09:00–18:00' },
+    { key: 'google_maps_url', label: 'Google Maps URL', icon: Map, placeholder: 'https://maps.google.com/embed?...' },
+  ];
 
   return (
-    <div className="pt-20 lg:pt-24 min-h-screen">
-      <div className="max-w-2xl mx-auto px-6 lg:px-12 py-12 lg:py-20">
-        <div className="flex items-center gap-3 mb-10">
-          <Link to="/lefevef/admin/panel" className="text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <Settings className="w-5 h-5 text-muted-foreground" />
-          <div>
-            <p className="text-xs tracking-[0.4em] uppercase text-muted-foreground">Admin</p>
-            <h1 className="font-display text-3xl font-semibold tracking-tight">Site Information</h1>
-          </div>
-        </div>
+    <AdminLayout title="Site Ayarları" subtitle="Ayarlar">
+      <div className="max-w-2xl space-y-3">
+        {fields.map(({ key, label, icon, placeholder }) => (
+          <SettingField key={key} icon={icon} label={label}>
+            <Input
+              value={form[key]}
+              onChange={(e) => setForm(p => ({ ...p, [key]: e.target.value }))}
+              placeholder={placeholder}
+              style={inputStyle}
+            />
+          </SettingField>
+        ))}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="text-xs tracking-wider uppercase text-muted-foreground mb-2 block">Address</label>
-            <Input
-              value={form.address}
-              onChange={(e) => setForm(p => ({ ...p, address: e.target.value }))}
-              placeholder="Maslak, Istanbul, Turkey"
-              className="bg-transparent"
-            />
-          </div>
-          <div>
-            <label className="text-xs tracking-wider uppercase text-muted-foreground mb-2 block">Phone</label>
-            <Input
-              value={form.phone}
-              onChange={(e) => setForm(p => ({ ...p, phone: e.target.value }))}
-              placeholder="+90 (212) 555 01 23"
-              className="bg-transparent"
-            />
-          </div>
-          <div>
-            <label className="text-xs tracking-wider uppercase text-muted-foreground mb-2 block">Email</label>
-            <Input
-              value={form.email}
-              onChange={(e) => setForm(p => ({ ...p, email: e.target.value }))}
-              placeholder="info@lithicmonolith.com"
-              className="bg-transparent"
-            />
-          </div>
-          <div>
-            <label className="text-xs tracking-wider uppercase text-muted-foreground mb-2 block">Working Hours</label>
-            <Input
-              value={form.working_hours}
-              onChange={(e) => setForm(p => ({ ...p, working_hours: e.target.value }))}
-              placeholder="Mon–Fri: 09:00–18:00"
-              className="bg-transparent"
-            />
-          </div>
-          <div>
-            <label className="text-xs tracking-wider uppercase text-muted-foreground mb-2 block">Google Maps Embed URL</label>
-            <Input
-              value={form.google_maps_url}
-              onChange={(e) => setForm(p => ({ ...p, google_maps_url: e.target.value }))}
-              placeholder="https://maps.google.com/embed?..."
-              className="bg-transparent"
-            />
-          </div>
-
-          <Button type="submit" disabled={mutation.isPending} className="w-full h-12 tracking-widest uppercase text-sm">
-            <Save className="w-4 h-4 mr-2" />
-            {mutation.isPending ? 'Saving...' : 'Save Changes'}
+        <div className="pt-2">
+          <Button
+            onClick={() => mutation.mutate(form)}
+            disabled={mutation.isPending}
+            className="gap-2 text-black font-semibold px-8"
+            style={{ backgroundColor: '#C9A96E' }}
+          >
+            <Save className="w-4 h-4" />
+            {mutation.isPending ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
           </Button>
-        </form>
+        </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 }
