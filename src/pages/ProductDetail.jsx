@@ -3,11 +3,18 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Plus, Minus, Package, MapPin, Ruler, Layers, Gem, ShoppingBag, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Plus, Minus, Package, MapPin, Ruler, Layers, Gem, ShoppingBag, ZoomIn, ChevronLeft, ChevronRight, Bell, AlertTriangle, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import GeologicalSiblings from '../components/products/GeologicalSiblings';
+
+const STOCK_CONFIG = {
+  in_stock:      { label: 'In Stock',         color: '#5EC4A1', bg: 'rgba(94,196,161,0.1)',  border: 'rgba(94,196,161,0.25)'  },
+  low_stock:     { label: 'Low Stock',         color: '#FBBF24', bg: 'rgba(251,191,36,0.1)',  border: 'rgba(251,191,36,0.25)'  },
+  out_of_stock:  { label: 'Out of Stock',      color: '#EF4444', bg: 'rgba(239,68,68,0.1)',   border: 'rgba(239,68,68,0.25)'   },
+  made_to_order: { label: 'Made to Order',     color: '#A78BFA', bg: 'rgba(167,139,250,0.1)', border: 'rgba(167,139,250,0.25)' },
+};
 
 const FINISH_LABELS = {
   polished: 'Polished',
@@ -36,6 +43,9 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [zoomed, setZoomed] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
+  const [notifyEmail, setNotifyEmail] = useState('');
+  const [notifySent, setNotifySent] = useState(false);
+  const [notifyLoading, setNotifyLoading] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: product, isLoading } = useQuery({
@@ -73,6 +83,27 @@ export default function ProductDetail() {
   }
 
   const allImages = [product.image_url, ...(product.gallery_urls || [])].filter(Boolean);
+
+  const isAvailable = !product.stock_status || product.stock_status === 'in_stock' || product.stock_status === 'low_stock';
+  const stockCfg = STOCK_CONFIG[product.stock_status] || STOCK_CONFIG.in_stock;
+
+  const handleNotify = async () => {
+    if (!notifyEmail) return;
+    setNotifyLoading(true);
+    await base44.integrations.Core.SendEmail({
+      to: notifyEmail,
+      subject: `Stok Bildirimi — ${product.name}`,
+      body: `Merhaba,\n\n"${product.name}" ürünü stoka girdiğinde sizi bilgilendireceğiz.\n\nTeşekkürler,\nLithic Monolith Ekibi`,
+    });
+    // Also notify admin
+    await base44.integrations.Core.SendEmail({
+      to: 'info@lithicmonolith.com',
+      subject: `Stok Talebi — ${product.name}`,
+      body: `${notifyEmail} adresi "${product.name}" (ID: ${product.id}) ürünü stoka girince bildirim almak istiyor.`,
+    });
+    setNotifySent(true);
+    setNotifyLoading(false);
+  };
 
   const handleAddToProject = () => {
     addToProject.mutate({
@@ -177,6 +208,15 @@ export default function ProductDetail() {
               <span className="text-sm text-muted-foreground">/ m²</span>
             </div>
 
+            {/* Stock Status Badge */}
+            <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium"
+              style={{ backgroundColor: stockCfg.bg, color: stockCfg.color, border: `1px solid ${stockCfg.border}` }}>
+              {product.stock_status === 'out_of_stock' && <AlertTriangle className="w-3 h-3" />}
+              {product.stock_status === 'made_to_order' && <Clock className="w-3 h-3" />}
+              {product.stock_status === 'low_stock' && <AlertTriangle className="w-3 h-3" />}
+              {stockCfg.label}
+            </div>
+
             {/* Live Batch Tracker */}
             {product.slabs_remaining && product.total_slabs_in_block && (
               <div className="mt-4 p-3 bg-muted rounded-lg">
@@ -235,41 +275,94 @@ export default function ProductDetail() {
 
             {/* Quantity & Add to Project */}
             <div className="mt-8 space-y-4">
-              <div>
-                <label className="text-xs tracking-wider uppercase text-muted-foreground mb-2 block">
-                  Quantity (m²)
-                </label>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                    className="w-10 h-10 border border-border rounded flex items-center justify-center hover:bg-muted transition-colors"
+              {isAvailable ? (
+                <>
+                  <div>
+                    <label className="text-xs tracking-wider uppercase text-muted-foreground mb-2 block">
+                      Quantity (m²)
+                    </label>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                        className="w-10 h-10 border border-border rounded flex items-center justify-center hover:bg-muted transition-colors"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <Input
+                        type="number"
+                        min="1"
+                        value={quantity}
+                        onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                        className="w-20 text-center"
+                      />
+                      <button
+                        onClick={() => setQuantity(q => q + 1)}
+                        className="w-10 h-10 border border-border rounded flex items-center justify-center hover:bg-muted transition-colors"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                  <Button
+                    onClick={handleAddToProject}
+                    disabled={addToProject.isPending}
+                    className="w-full h-12 text-sm tracking-widest uppercase"
                   >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <Input
-                    type="number"
-                    min="1"
-                    value={quantity}
-                    onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="w-20 text-center"
-                  />
-                  <button
-                    onClick={() => setQuantity(q => q + 1)}
-                    className="w-10 h-10 border border-border rounded flex items-center justify-center hover:bg-muted transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
+                    <ShoppingBag className="w-4 h-4 mr-2" />
+                    Add to Project — ${(product.price_per_sqm * quantity).toFixed(0)}
+                  </Button>
+                </>
+              ) : (
+                <div className="p-4 rounded-lg border space-y-3" style={{ borderColor: stockCfg.border, backgroundColor: stockCfg.bg }}>
+                  <div className="flex items-start gap-2">
+                    {product.stock_status === 'made_to_order' ? (
+                      <Clock className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: stockCfg.color }} />
+                    ) : (
+                      <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: stockCfg.color }} />
+                    )}
+                    <div>
+                      <p className="text-sm font-medium" style={{ color: stockCfg.color }}>
+                        {product.stock_status === 'made_to_order'
+                          ? 'Bu ürün sipariş üzerine üretilmektedir.'
+                          : 'Bu ürün şu an stokta mevcut değil.'}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {product.stock_status === 'made_to_order'
+                          ? 'Üretim süresi ve fiyat için bizimle iletişime geçin.'
+                          : 'Stoka girdiğinde size e-posta ile bildirim göndereceğiz.'}
+                      </p>
+                    </div>
+                  </div>
 
-              <Button
-                onClick={handleAddToProject}
-                disabled={addToProject.isPending}
-                className="w-full h-12 text-sm tracking-widest uppercase"
-              >
-                <ShoppingBag className="w-4 h-4 mr-2" />
-                Add to Project — ${(product.price_per_sqm * quantity).toFixed(0)}
-              </Button>
+                  {product.stock_status === 'out_of_stock' && (
+                    notifySent ? (
+                      <div className="flex items-center gap-2 text-sm" style={{ color: '#5EC4A1' }}>
+                        <Bell className="w-4 h-4" />
+                        Bildirim talebiniz alındı. Stoka girince haberdar edileceksiniz.
+                      </div>
+                    ) : (
+                      <div className="flex gap-2">
+                        <Input
+                          type="email"
+                          placeholder="E-posta adresiniz"
+                          value={notifyEmail}
+                          onChange={e => setNotifyEmail(e.target.value)}
+                          className="flex-1 h-9 text-sm"
+                        />
+                        <Button
+                          onClick={handleNotify}
+                          disabled={notifyLoading || !notifyEmail}
+                          size="sm"
+                          className="gap-1.5 whitespace-nowrap"
+                        >
+                          <Bell className="w-3.5 h-3.5" />
+                          {notifyLoading ? 'Gönderiliyor...' : 'Bildir'}
+                        </Button>
+                      </div>
+                    )
+                  )}
+                </div>
+              )}
 
               <Link
                 to="/contact"
