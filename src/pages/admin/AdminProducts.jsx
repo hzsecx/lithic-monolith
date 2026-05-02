@@ -7,7 +7,6 @@ import { Plus, Pencil, Trash2, Save, X, ImageIcon, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { toast } from '@/components/ui/use-toast';
 import AdminLayout from '@/components/admin/AdminLayout';
 
 const CATEGORIES = ['slab', 'tile', 'block', 'mosaic', 'countertop'];
@@ -54,17 +53,17 @@ export default function AdminProducts() {
 
   const createMutation = useMutation({
     mutationFn: (data) => base44.entities.MarbleProduct.create(data),
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['adminProducts'] }); toast({ title: 'Ürün oluşturuldu' }); closeForm(); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['adminProducts'] }); closeForm(); },
   });
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.MarbleProduct.update(id, data),
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['adminProducts'] }); toast({ title: 'Ürün güncellendi' }); closeForm(); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['adminProducts'] }); closeForm(); },
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id) => base44.entities.MarbleProduct.delete(id),
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['adminProducts'] }); toast({ title: 'Ürün silindi' }); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['adminProducts'] }); },
   });
 
   const openNew = () => { setForm(EMPTY_FORM); setEditingProduct('new'); };
