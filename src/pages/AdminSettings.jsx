@@ -4,7 +4,8 @@ import { base44 } from '@/api/base44Client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import { Save, Settings } from 'lucide-react';
+import { Save, Settings, ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/lib/AuthContext';
 
 export default function AdminSettings() {
@@ -68,6 +69,9 @@ export default function AdminSettings() {
     <div className="pt-20 lg:pt-24 min-h-screen">
       <div className="max-w-2xl mx-auto px-6 lg:px-12 py-12 lg:py-20">
         <div className="flex items-center gap-3 mb-10">
+          <Link to="/lefevef/admin/panel" className="text-muted-foreground hover:text-foreground transition-colors">
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
           <Settings className="w-5 h-5 text-muted-foreground" />
           <div>
             <p className="text-xs tracking-[0.4em] uppercase text-muted-foreground">Admin</p>

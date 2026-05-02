@@ -131,7 +131,7 @@ export default function Navbar() {
                             <div className="p-1.5 space-y-0.5">
                               {user?.role === 'admin' && (
                                 <Link
-                                  to="/admin/categories"
+                                  to="/lefevef/admin/panel"
                                   onClick={() => setUserMenuOpen(false)}
                                   className="w-full flex items-center gap-3 px-3 py-2.5 text-xs tracking-wider rounded-lg transition-all"
                                   style={{ color: 'rgba(255,255,255,0.6)' }}

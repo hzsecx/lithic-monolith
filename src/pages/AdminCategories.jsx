@@ -121,7 +121,7 @@ export default function AdminCategories() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
-            <Link to="/" className="text-white/40 hover:text-white/70 transition-colors">
+            <Link to="/lefevef/admin/panel" className="text-white/40 hover:text-white/70 transition-colors">
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <div>

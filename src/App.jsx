@@ -14,6 +14,9 @@ import ProjectPalette from './pages/ProjectPalette';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import AdminCategories from './pages/AdminCategories';
+import AdminSettings from './pages/AdminSettings';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminPanel from './pages/admin/AdminPanel';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings } = useAuth();
@@ -40,7 +43,10 @@ const AuthenticatedApp = () => {
         <Route path="/project" element={<ProjectPalette />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/admin/categories" element={<AdminCategories />} />
+        <Route path="/lefevef/admin" element={<AdminLogin />} />
+        <Route path="/lefevef/admin/panel" element={<AdminPanel />} />
+        <Route path="/lefevef/admin/categories" element={<AdminCategories />} />
+        <Route path="/lefevef/admin/settings" element={<AdminSettings />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
