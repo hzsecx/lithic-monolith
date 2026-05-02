@@ -8,6 +8,18 @@ import { Save, MapPin, Phone, Mail, Clock, Map } from 'lucide-react';
 import { useAuth } from '@/lib/AuthContext';
 import AdminLayout from '@/components/admin/AdminLayout';
 
+const convertMapUrl = (url) => {
+  if (!url) return '';
+  if (url.includes('maps.app.goo.gl')) {
+    const coords = new URL(url).searchParams.get('q');
+    if (coords) {
+      const [lat, lng] = coords.split(',');
+      return `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.2342652443566!2d${lng}!3d${lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1`;
+    }
+  }
+  return url;
+};
+
 const inputStyle = { backgroundColor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)', color: 'white' };
 
 function SettingField({ icon: IconComp, label, children }) {
@@ -48,8 +60,9 @@ export default function AdminSettings() {
 
   const mutation = useMutation({
     mutationFn: async (data) => {
-      if (settings.length > 0) return base44.entities.SiteSettings.update(settings[0].id, data);
-      return base44.entities.SiteSettings.create(data);
+      const dataWithConvertedUrl = { ...data, google_maps_url: convertMapUrl(data.google_maps_url) };
+      if (settings.length > 0) return base44.entities.SiteSettings.update(settings[0].id, dataWithConvertedUrl);
+      return base44.entities.SiteSettings.create(dataWithConvertedUrl);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['siteSettings'] });
