@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import FilterSidebar from '../components/products/FilterSidebar';
 import ProductCard from '../components/products/ProductCard';
 
+const HERO_IMAGE = 'https://media.base44.com/images/public/69f2e4b70bf151eda077e6ed/2e6e5a723_generated_image.png';
+
 export default function Products() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('newest');
@@ -63,80 +65,110 @@ export default function Products() {
   }, [products, searchQuery, filters, sortBy]);
 
   return (
-    <div className="pt-20 lg:pt-24 min-h-screen">
-      {/* Page Header */}
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-8 lg:py-12">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <p className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-2">Mineral Archive</p>
-          <h1 className="font-display text-4xl lg:text-5xl font-semibold tracking-tight">Collection</h1>
-        </motion.div>
+    <div style={{ backgroundColor: '#0D1B2A', minHeight: '100vh' }}>
+      {/* Hero Section with marble texture */}
+      <div className="relative h-64 lg:h-80 overflow-hidden">
+        <img
+          src={HERO_IMAGE}
+          alt="Marble texture"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(13,27,42,0.3) 0%, rgba(13,27,42,0.7) 100%)' }} />
+        <div className="absolute bottom-8 left-6 lg:left-12">
+          <p className="text-xs tracking-[0.4em] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            Mineral Archive
+          </p>
+          <h1 className="font-display text-5xl lg:text-6xl font-bold text-white tracking-tight">
+            Collection
+          </h1>
+        </div>
+      </div>
 
-        {/* Search & Controls */}
-        <div className="mt-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-          <div className="relative w-full sm:w-80">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+      {/* Main Content */}
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+
+        {/* Search bar below hero */}
+        <div className="py-6 border-b" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
+          <div className="relative w-full sm:w-96">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'rgba(255,255,255,0.4)' }} />
             <Input
               placeholder="Search marble..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-transparent border-border"
+              className="pl-10 border-0 text-white placeholder:text-white/30"
+              style={{ backgroundColor: 'rgba(255,255,255,0.06)', color: 'white' }}
             />
           </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setShowMobileFilters(true)}
-              className="lg:hidden flex items-center gap-2 text-sm border border-border px-4 py-2 rounded"
-            >
-              <SlidersHorizontal className="w-4 h-4" />
-              Filters
-            </button>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-48 bg-transparent">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="newest">Newest</SelectItem>
-                <SelectItem value="price_asc">Price: Low → High</SelectItem>
-                <SelectItem value="price_desc">Price: High → Low</SelectItem>
-                <SelectItem value="name">Name A–Z</SelectItem>
-              </SelectContent>
-            </Select>
-            <span className="text-sm text-muted-foreground hidden sm:block">
-              {filteredProducts.length} results
-            </span>
-          </div>
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 pb-24">
-        <div className="flex gap-8 lg:gap-12">
-          {/* Desktop Sidebar */}
-          <div className="hidden lg:block w-64 flex-shrink-0">
-            <FilterSidebar filters={filters} setFilters={setFilters} />
+        <div className="flex gap-0 lg:gap-8 pt-8 pb-24">
+          {/* Desktop Sidebar — frosted glass */}
+          <div className="hidden lg:block w-56 flex-shrink-0">
+            <div
+              className="sticky top-24 rounded-xl p-1"
+              style={{
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+              }}
+            >
+              <FilterSidebar filters={filters} setFilters={setFilters} dark />
+            </div>
           </div>
 
           {/* Product Grid */}
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
+            {/* Controls row */}
+            <div className="flex items-center justify-between mb-6">
+              <button
+                onClick={() => setShowMobileFilters(true)}
+                className="lg:hidden flex items-center gap-2 text-sm px-4 py-2 rounded-lg"
+                style={{ backgroundColor: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.1)' }}
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                Filters
+              </button>
+              <div className="flex items-center gap-4 ml-auto">
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger
+                    className="w-40 border text-sm"
+                    style={{ backgroundColor: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.12)', color: 'white' }}
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newest">Newest</SelectItem>
+                    <SelectItem value="price_asc">Price: Low → High</SelectItem>
+                    <SelectItem value="price_desc">Price: High → Low</SelectItem>
+                    <SelectItem value="name">Name A–Z</SelectItem>
+                  </SelectContent>
+                </Select>
+                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  {filteredProducts.length} results
+                </span>
+              </div>
+            </div>
+
             {isLoading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-5">
                 {Array(9).fill(0).map((_, i) => (
-                  <div key={i} className="aspect-[3/4] bg-muted animate-pulse rounded" />
+                  <div key={i} className="aspect-[3/4] bg-white/5 animate-pulse rounded-xl" />
                 ))}
               </div>
             ) : filteredProducts.length === 0 ? (
               <div className="text-center py-24">
-                <p className="font-display text-2xl text-muted-foreground">No results found</p>
-                <p className="text-sm text-muted-foreground mt-2">Try adjusting your filters</p>
+                <p className="font-display text-2xl" style={{ color: 'rgba(255,255,255,0.4)' }}>No results found</p>
+                <p className="text-sm mt-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Try adjusting your filters</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-5">
                 {filteredProducts.map((product, index) => (
                   <ProductCard
                     key={product.id}
                     product={product}
                     index={index}
                     isLarge={index === 0 || index === 5}
+                    dark
                   />
                 ))}
               </div>
@@ -153,6 +185,7 @@ export default function Products() {
             setFilters={setFilters}
             onClose={() => setShowMobileFilters(false)}
             isMobile
+            dark
           />
         )}
       </AnimatePresence>

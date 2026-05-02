@@ -1,27 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, MapPin } from 'lucide-react';
+import { MapPin, HandHelping } from 'lucide-react';
 
-const FINISH_LABELS = {
-  polished: 'Polished',
-  honed: 'Honed',
-  leathered: 'Leathered',
-  brushed: 'Brushed',
-  tumbled: 'Tumbled',
-};
-
-export default function ProductCard({ product, index, isLarge }) {
+export default function ProductCard({ product, index, isLarge, dark }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ delay: (index % 4) * 0.08 }}
-      className={`group ${isLarge ? 'md:col-span-2' : ''}`}
+      className={`group ${isLarge ? 'col-span-1 xl:col-span-1' : ''}`}
     >
       <Link to={`/product/${product.id}`} className="block">
-        <div className={`relative overflow-hidden bg-muted ${isLarge ? 'aspect-[16/10]' : 'aspect-[3/4]'}`}>
+        {/* Image container */}
+        <div
+          className="relative overflow-hidden rounded-xl aspect-[3/4]"
+          style={{ border: dark ? '1px solid rgba(255,255,255,0.08)' : undefined }}
+        >
           {product.image_url ? (
             <img
               src={product.image_url}
@@ -30,74 +26,78 @@ export default function ProductCard({ product, index, isLarge }) {
               loading="lazy"
             />
           ) : (
-            <div className="w-full h-full bg-muted flex items-center justify-center">
-              <span className="text-muted-foreground font-display text-lg">{product.name?.[0]}</span>
+            <div
+              className="w-full h-full flex items-center justify-center"
+              style={{ backgroundColor: dark ? '#1a2940' : undefined }}
+            >
+              <span className="font-display text-lg" style={{ color: dark ? 'rgba(255,255,255,0.3)' : undefined }}>
+                {product.name?.[0]}
+              </span>
             </div>
           )}
 
-          {/* Vein Glow Sweep */}
+          {/* Shimmer sweep on hover */}
           <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/8 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
 
-          {/* Bottom Gradient */}
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          {/* Bottom gradient overlay */}
+          <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-          {/* Geological Profile on Hover */}
-          <div className="absolute bottom-0 left-0 right-0 p-5 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400">
-            <div className="backdrop-blur-sm bg-black/20 rounded-lg p-3 border border-white/10">
-              <div className="grid grid-cols-3 gap-2 text-[10px] text-white/70 tracking-wider uppercase">
-                {product.origin && (
-                  <div>
-                    <p className="text-white/40">Origin</p>
-                    <p className="text-white">{product.origin}</p>
-                  </div>
-                )}
-                {product.hardness && (
-                  <div>
-                    <p className="text-white/40">Hardness</p>
-                    <p className="text-white">{product.hardness} Mohs</p>
-                  </div>
-                )}
-                {product.vein_type && (
-                  <div>
-                    <p className="text-white/40">Vein</p>
-                    <p className="text-white">{product.vein_type}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Badges */}
+          {/* Badges top-left */}
           <div className="absolute top-3 left-3 flex flex-col gap-1.5">
             {product.stock_status === 'low_stock' && (
-              <span className="bg-foreground text-background text-[10px] tracking-[0.15em] uppercase px-2.5 py-1">
+              <span
+                className="text-[10px] tracking-[0.15em] uppercase px-2.5 py-1 rounded"
+                style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', backdropFilter: 'blur(8px)' }}
+              >
                 Limited
               </span>
             )}
             {product.featured && (
-              <span className="bg-primary text-primary-foreground text-[10px] tracking-[0.15em] uppercase px-2.5 py-1">
+              <span
+                className="text-[10px] tracking-[0.15em] uppercase px-2.5 py-1 rounded"
+                style={{ backgroundColor: '#C9A96E', color: '#0D1B2A' }}
+              >
                 Featured
               </span>
             )}
           </div>
-        </div>
 
-        {/* Info */}
-        <div className="mt-3 flex justify-between items-start">
-          <div>
-            <h3 className="text-sm font-medium group-hover:underline underline-offset-4">{product.name}</h3>
-            <div className="flex items-center gap-1 mt-1">
-              {product.origin && (
-                <span className="text-xs text-muted-foreground flex items-center gap-1">
-                  <MapPin className="w-3 h-3" />
-                  {product.origin}
-                </span>
+          {/* Price + request sample bottom overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-4">
+            <div className="flex items-end justify-between">
+              <div>
+                <h3 className="text-sm font-semibold text-white leading-tight">{product.name}</h3>
+                {product.origin && (
+                  <div className="flex items-center gap-1 mt-1">
+                    <MapPin className="w-3 h-3" style={{ color: '#C9A96E' }} />
+                    <span className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>{product.origin}</span>
+                  </div>
+                )}
+              </div>
+              {product.price_per_sqm && (
+                <div className="text-right">
+                  <p
+                    className="text-lg font-bold"
+                    style={{ color: '#C9A96E' }}
+                  >
+                    ${product.price_per_sqm}
+                  </p>
+                  <p className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>/m²</p>
+                </div>
               )}
             </div>
-          </div>
-          <div className="text-right">
-            <p className="text-sm font-medium">${product.price_per_sqm}</p>
-            <p className="text-[10px] text-muted-foreground">/m²</p>
+
+            {/* Request Sample button — visible on hover */}
+            <div className="mt-3 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+              <div
+                className="flex items-center justify-center gap-2 w-full py-2 rounded-lg text-xs font-medium tracking-wider"
+                style={{ backgroundColor: '#1B4D3E', color: 'white', border: '1px solid rgba(255,255,255,0.15)' }}
+                onClick={(e) => e.preventDefault()}
+              >
+                <HandHelping className="w-3.5 h-3.5" />
+                Request Sample
+              </div>
+            </div>
           </div>
         </div>
       </Link>
