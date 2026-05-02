@@ -16,7 +16,7 @@ export default function ProductCard({ product, index, isLarge, dark }) {
         {/* Image container */}
         <div
           className="relative overflow-hidden rounded-xl aspect-[3/4]"
-          style={{ border: dark ? '1px solid rgba(201,169,110,0.35)' : '1px solid rgba(201,169,110,0.25)', boxShadow: dark ? '0 0 0 1px rgba(201,169,110,0.08), inset 0 0 0 1px rgba(255,255,255,0.04)' : '0 0 0 1px rgba(201,169,110,0.08)' }}
+          style={{ border: '1px solid rgba(201,169,110,0.55)', boxShadow: '0 0 18px 4px rgba(201,169,110,0.25), 0 0 6px 1px rgba(201,169,110,0.15)' }}
         >
           {product.image_url ? (
             <img
