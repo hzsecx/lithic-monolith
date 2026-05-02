@@ -314,9 +314,11 @@ export default function AdminProducts() {
                 </FormField>
 
                 <div className="grid grid-cols-2 gap-4">
+                  {form.stock_status !== 'out_of_stock' && (
                   <FormField label="Stok Adedi (adet)">
                     <Input type="number" value={form.slabs_remaining} onChange={e => setForm(p => ({ ...p, slabs_remaining: e.target.value }))} placeholder="0" min={0} style={inputStyle} />
                   </FormField>
+                  )}
                   <FormField label="Öne Çıkan">
                     <div className="flex gap-2 h-9">
                       {[{ val: true, lbl: 'Evet' }, { val: false, lbl: 'Hayır' }].map(({ val, lbl }) => (
