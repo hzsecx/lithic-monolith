@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Pencil, Trash2, ArrowLeft, Save, X, ImageIcon, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
 import { Link } from 'react-router-dom';
 
@@ -312,6 +313,16 @@ export default function AdminProducts() {
                       </button>
                     ))}
                   </div>
+                </FormField>
+
+                <FormField label="Açıklama">
+                  <Textarea
+                    value={form.description}
+                    onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
+                    placeholder="Ürün hakkında detaylı açıklama..."
+                    rows={4}
+                    style={{ ...inputStyle, resize: 'none' }}
+                  />
                 </FormField>
 
                 <FormField label="Stok Durumu">
