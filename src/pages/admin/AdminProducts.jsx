@@ -22,7 +22,7 @@ const STOCK_LABELS = { in_stock: 'Stokta', low_stock: 'Az Stok', out_of_stock: '
 
 const EMPTY_FORM = {
   name: '', category: 'slab', price_per_sqm: '', stock_status: 'in_stock',
-  origin: '', image_url: '', description: '',
+  origin: '', image_url: '', description: '', slabs_remaining: '', featured: false,
 };
 
 const inputStyle = {
@@ -69,14 +69,14 @@ export default function AdminProducts() {
 
   const openNew = () => { setForm(EMPTY_FORM); setEditingProduct('new'); };
   const openEdit = (p) => {
-    setForm({ name: p.name || '', category: p.category || 'slab', price_per_sqm: p.price_per_sqm ?? '', stock_status: p.stock_status || 'in_stock', origin: p.origin || '', image_url: p.image_url || '', description: p.description || '' });
+    setForm({ name: p.name || '', category: p.category || 'slab', price_per_sqm: p.price_per_sqm ?? '', stock_status: p.stock_status || 'in_stock', origin: p.origin || '', image_url: p.image_url || '', description: p.description || '', slabs_remaining: p.slabs_remaining ?? '', featured: p.featured ?? false });
     setEditingProduct(p);
   };
   const closeForm = () => { setEditingProduct(null); setForm(EMPTY_FORM); };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = { ...form, price_per_sqm: Number(form.price_per_sqm) };
+    const data = { ...form, price_per_sqm: Number(form.price_per_sqm), slabs_remaining: form.slabs_remaining !== '' ? Number(form.slabs_remaining) : undefined };
     if (editingProduct === 'new') createMutation.mutate(data);
     else updateMutation.mutate({ id: editingProduct.id, data });
   };
@@ -312,6 +312,25 @@ export default function AdminProducts() {
                     ))}
                   </div>
                 </FormField>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField label="Stok Adedi (adet)">
+                    <Input type="number" value={form.slabs_remaining} onChange={e => setForm(p => ({ ...p, slabs_remaining: e.target.value }))} placeholder="0" min={0} style={inputStyle} />
+                  </FormField>
+                  <FormField label="Öne Çıkan">
+                    <div className="flex gap-2 h-9">
+                      {[{ val: true, lbl: 'Evet' }, { val: false, lbl: 'Hayır' }].map(({ val, lbl }) => (
+                        <button key={String(val)} type="button" onClick={() => setForm(p => ({ ...p, featured: val }))}
+                          className="flex-1 rounded-lg text-xs font-medium border transition-all"
+                          style={form.featured === val
+                            ? { backgroundColor: '#C9A96E', color: '#000', borderColor: 'transparent' }
+                            : { backgroundColor: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)', borderColor: 'rgba(255,255,255,0.08)' }
+                          }
+                        >{lbl}</button>
+                      ))}
+                    </div>
+                  </FormField>
+                </div>
 
                 <FormField label="Stok Durumu">
                   <div className="grid grid-cols-2 gap-1.5">
