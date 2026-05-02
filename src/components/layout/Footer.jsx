@@ -1,7 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 
 export default function Footer() {
+  const { data: settings = [] } = useQuery({
+    queryKey: ['siteSettings'],
+    queryFn: () => base44.entities.SiteSettings.list(),
+  });
+  const s = settings[0] || {};
+
   return (
     <footer style={{ backgroundColor: '#0A0A0A', borderTop: '1px solid #C9A96E22' }}>
       <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-16 lg:py-20">
@@ -41,9 +49,10 @@ export default function Footer() {
           <div>
             <h4 className="text-xs tracking-[0.3em] uppercase mb-6 text-white/30">Contact</h4>
             <div className="flex flex-col gap-3 text-sm text-white/50">
-              <p>info@lithicmonolith.com</p>
-              <p>+90 (212) 555 0123</p>
-              <p>Istanbul, Turkey</p>
+              {s.email && <p>{s.email}</p>}
+              {s.phone && <p>{s.phone}</p>}
+              {s.address && <p>{s.address}</p>}
+              {s.working_hours && <p>{s.working_hours}</p>}
             </div>
           </div>
         </div>
