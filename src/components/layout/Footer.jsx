@@ -22,6 +22,7 @@ export default function Footer() {
             allowFullScreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
+            sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox"
           />
           <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to bottom, #0A0A0A18, transparent 20%, transparent 80%, #0A0A0A44)', borderBottom: '1px solid #C9A96E22' }} />
         </div>
