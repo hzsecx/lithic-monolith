@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ShoppingBag, Search, User, LogOut } from 'lucide-react';
+import { Menu, X, ShoppingBag, Search, User, LogOut, Settings } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/lib/AuthContext';
@@ -128,7 +128,25 @@ export default function Navbar() {
                               <p className="text-xs text-white/60 truncate">{user.full_name || user.email}</p>
                             </div>
 
-                            <div className="p-1.5">
+                            <div className="p-1.5 space-y-0.5">
+                              {user?.role === 'admin' && (
+                                <Link
+                                  to="/admin/categories"
+                                  onClick={() => setUserMenuOpen(false)}
+                                  className="w-full flex items-center gap-3 px-3 py-2.5 text-xs tracking-wider rounded-lg transition-all"
+                                  style={{ color: 'rgba(255,255,255,0.6)' }}
+                                  onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(201,169,110,0.1)'}
+                                  onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
+                                >
+                                  <div
+                                    className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
+                                    style={{ backgroundColor: 'rgba(201,169,110,0.15)', border: '1px solid rgba(201,169,110,0.2)' }}
+                                  >
+                                    <Settings className="w-3 h-3" style={{ color: '#C9A96E' }} />
+                                  </div>
+                                  <span className="text-white/70">Admin Panel</span>
+                                </Link>
+                              )}
                               <button
                                 onClick={() => { base44.auth.logout(); setUserMenuOpen(false); }}
                                 className="w-full flex items-center gap-3 px-3 py-2.5 text-xs tracking-wider rounded-lg transition-all group"
