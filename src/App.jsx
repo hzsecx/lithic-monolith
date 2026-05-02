@@ -17,6 +17,7 @@ import AdminCategories from './pages/AdminCategories';
 import AdminSettings from './pages/AdminSettings';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminPanel from './pages/admin/AdminPanel';
+import AdminProducts from './pages/admin/AdminProducts';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings } = useAuth();
@@ -47,6 +48,7 @@ const AuthenticatedApp = () => {
         <Route path="/lefevef/admin/panel" element={<AdminPanel />} />
         <Route path="/lefevef/admin/categories" element={<AdminCategories />} />
         <Route path="/lefevef/admin/settings" element={<AdminSettings />} />
+        <Route path="/lefevef/admin/products" element={<AdminProducts />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

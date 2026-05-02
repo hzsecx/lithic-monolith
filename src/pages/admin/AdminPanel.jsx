@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/lib/AuthContext';
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { LayoutGrid, Settings, ArrowLeft, LogOut } from 'lucide-react';
+import { LayoutGrid, Settings, ArrowLeft, LogOut, Gem } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 const MENU = [
@@ -12,6 +12,12 @@ const MENU = [
     description: 'Ana sayfa kategori kartlarını yönet',
     icon: LayoutGrid,
     path: '/lefevef/admin/categories',
+  },
+  {
+    label: 'Ürün Yönetimi',
+    description: 'Mermer ürünlerini ekle, düzenle ve sil',
+    icon: Gem,
+    path: '/lefevef/admin/products',
   },
   {
     label: 'Site Ayarları',
