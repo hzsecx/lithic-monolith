@@ -35,38 +35,42 @@ export default function Navbar() {
 
   return (
     <>
-      <motion.header
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-        style={{
-          backgroundColor: scrolled || !isHome ? 'rgba(10,10,10,0.95)' : 'transparent',
-          backdropFilter: scrolled || !isHome ? 'blur(16px)' : 'none',
-          borderBottom: scrolled || !isHome ? '1px solid #C9A96E22' : 'none',
-        }}
-      >
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+      <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-6 pt-4">
+        <motion.header
+          className="w-full max-w-[1400px] transition-all duration-500"
+          style={{
+            background: 'linear-gradient(135deg, rgba(20,18,14,0.82) 0%, rgba(30,26,18,0.78) 50%, rgba(18,16,12,0.85) 100%)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            border: '1px solid rgba(201,169,110,0.18)',
+            borderRadius: '16px',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
+          }}
+        >
+        <div className="px-6 lg:px-10">
+          <div className="flex items-center justify-between h-14 lg:h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
               <span
                 className="font-display text-xl lg:text-2xl font-bold tracking-widest uppercase"
-                style={{ color: isDark ? '#C9A96E' : '#C9A96E' }}
+                style={{ color: 'rgba(255,255,255,0.95)' }}
               >
                 Lithic
               </span>
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-10">
+            <nav className="hidden lg:flex items-center gap-8">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="text-xs tracking-[0.3em] uppercase transition-all duration-300"
+                  className="text-sm font-light transition-all duration-300"
                   style={{
-                    color: location.pathname === link.path ? '#C9A96E' : 'rgba(255,255,255,0.7)',
+                    color: location.pathname === link.path ? '#C9A96E' : 'rgba(255,255,255,0.75)',
                   }}
                   onMouseEnter={e => e.target.style.color = '#C9A96E'}
-                  onMouseLeave={e => e.target.style.color = location.pathname === link.path ? '#C9A96E' : 'rgba(255,255,255,0.7)'}
+                  onMouseLeave={e => e.target.style.color = location.pathname === link.path ? '#C9A96E' : 'rgba(255,255,255,0.75)'}
                 >
                   {link.label}
                 </Link>
@@ -74,21 +78,21 @@ export default function Navbar() {
             </nav>
 
             {/* Right Actions */}
-            <div className="flex items-center gap-4">
-              <Link to="/products" className="hidden lg:flex text-white/60 hover:text-white transition-colors">
+            <div className="flex items-center gap-5">
+              <Link to="/products" className="hidden lg:flex text-white/50 hover:text-white/80 transition-colors">
                 <Search className="w-4 h-4" />
               </Link>
-              <Link to="/project" className="relative text-white/60 hover:text-white transition-colors">
+              <Link
+                to="/project"
+                className="hidden lg:flex items-center gap-2 text-sm font-light transition-all duration-300"
+                style={{ color: '#C9A96E' }}
+                onMouseEnter={e => e.currentTarget.style.opacity = '0.75'}
+                onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+              >
                 <ShoppingBag className="w-4 h-4" />
-                {cartItems.length > 0 && (
-                  <span
-                    className="absolute -top-1.5 -right-1.5 w-4 h-4 text-black text-[10px] font-bold rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: '#C9A96E' }}
-                  >
-                    {cartItems.length}
-                  </span>
-                )}
+                <span>Cart{cartItems.length > 0 ? ` (${cartItems.length})` : ''}</span>
               </Link>
+              <div className="hidden lg:block w-px h-4 bg-white/10" />
 
               {/* User Icon */}
               <div className="relative">
@@ -171,9 +175,12 @@ export default function Navbar() {
                 ) : (
                   <button
                     onClick={() => base44.auth.redirectToLogin()}
-                    className="text-white/60 hover:text-white transition-colors"
+                    className="hidden lg:block text-sm font-light transition-colors"
+                    style={{ color: 'rgba(255,255,255,0.75)' }}
+                    onMouseEnter={e => e.currentTarget.style.color = '#C9A96E'}
+                    onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.75)'}
                   >
-                    <User className="w-4 h-4" />
+                    Sign In
                   </button>
                 )}
               </div>
@@ -187,7 +194,8 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-      </motion.header>
+        </motion.header>
+      </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
